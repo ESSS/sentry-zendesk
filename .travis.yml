@@ -1,0 +1,30 @@
+sudo: false
+language: python
+services:
+- redis-server
+python:
+- '2.7'
+cache:
+  directories:
+  - .tox
+  - $HOME/.cache/pip/wheels
+  - $HOME/virtualenv/python2.7/src
+env:
+  global:
+  - PIP_DISABLE_PIP_VERSION_CHECK=on
+  - SENTRY_SKIP_BACKEND_VALIDATION=1
+  matrix:
+  - TOX_ENV=py27-sentry811
+  - TOX_ENV=py27-sentry812
+  - TOX_ENV=py27-sentry813
+  - TOX_ENV=py27-sentry814
+  - TOX_ENV=py27-sentrylatest
+  - TOX_ENV=coverage
+  - TOX_ENV=linting
+install:
+- pip install tox
+- pip freeze
+script:
+- tox -e $TOX_ENV
+after_success:
+- bash <(curl -s https://codecov.io/bash)
