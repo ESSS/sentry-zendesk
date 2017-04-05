@@ -28,3 +28,27 @@ script:
 - tox -e $TOX_ENV
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+deploy:
+  # test PyPI
+  - provider: pypi
+    distributions: "sdist bdist_wheel"
+    server: https://testpypi.python.org/pypi
+    user: gqmelo
+    password:
+      secure: "gD2wyAs85+wdRw4EEROpMEQ97hmeUCwJa+KXaJT9Ubsub/EXHxLdDjOSssALYXKhj5BPwEcH/XjuNw2wtGI0zV4tpNfwGHZovOY+cQvGQxabGoh6msbCvgpKjUEHZO96GzZLrQOpxT0XeeguIJXW75e61bhsMDFtAHGaLqaVYZL1O8ucsdUO0cy1QTFWyfpLo5KPuT9zdiuQVncVbT2zicNFGo3Ht7OnLyj1A/PsHptDZ3DqmVv+fnF9tu/jHe7uqSAB8iWDmnueqVpeNLMSRBZYhx4+buFqCJmyLE9yz5LJAb5Wqz5Y1R1Hw6fgMs93vptCcXPjyTyFht7aw/NACeYbxhEoTQmv0fTiYwTCRwYquvk3QYtTn7fuUnrPibDoxDlyqXtcEZhjCTh3qQCKt8LGXO0zrVwAtgWblg5zXwkhZ2jH7rzb85updladhriplZiR9mBUC9a/dmj8TSDDN+zRFw7egksrno1ksATfEW4pDUOE4na7NfWzCkjWtJ+mabT5ebrzAQxwQDVjMuzMNBNGUL6fHp2CH9qA3Mi/4+xkaTsiy0gcl72enO32vMEbdzoZwcdT3DCvpHxiCYrSaZ4KUXnkDt5vhm9QdJwqjICJI4s6nyxCVeHuDyggbp5eT26WiJBmK4eeuTkFTUujHX+flknjl4UIsV+82AGDpFg="
+    on:
+      branch: master
+      tags: false
+      repo: ESSS/sentry-zendesk
+      condition: $TOX_ENV = "py27-sentrylatest"
+
+  # production PyPI
+  - provider: pypi
+    distributions: "sdist bdist_wheel"
+    user: gqmelo
+    password:
+      secure: "gD2wyAs85+wdRw4EEROpMEQ97hmeUCwJa+KXaJT9Ubsub/EXHxLdDjOSssALYXKhj5BPwEcH/XjuNw2wtGI0zV4tpNfwGHZovOY+cQvGQxabGoh6msbCvgpKjUEHZO96GzZLrQOpxT0XeeguIJXW75e61bhsMDFtAHGaLqaVYZL1O8ucsdUO0cy1QTFWyfpLo5KPuT9zdiuQVncVbT2zicNFGo3Ht7OnLyj1A/PsHptDZ3DqmVv+fnF9tu/jHe7uqSAB8iWDmnueqVpeNLMSRBZYhx4+buFqCJmyLE9yz5LJAb5Wqz5Y1R1Hw6fgMs93vptCcXPjyTyFht7aw/NACeYbxhEoTQmv0fTiYwTCRwYquvk3QYtTn7fuUnrPibDoxDlyqXtcEZhjCTh3qQCKt8LGXO0zrVwAtgWblg5zXwkhZ2jH7rzb85updladhriplZiR9mBUC9a/dmj8TSDDN+zRFw7egksrno1ksATfEW4pDUOE4na7NfWzCkjWtJ+mabT5ebrzAQxwQDVjMuzMNBNGUL6fHp2CH9qA3Mi/4+xkaTsiy0gcl72enO32vMEbdzoZwcdT3DCvpHxiCYrSaZ4KUXnkDt5vhm9QdJwqjICJI4s6nyxCVeHuDyggbp5eT26WiJBmK4eeuTkFTUujHX+flknjl4UIsV+82AGDpFg="
+    on:
+      tags: true
+      repo: ESSS/sentry-zendesk
+      condition: $TOX_ENV = "py27-sentrylatest"
